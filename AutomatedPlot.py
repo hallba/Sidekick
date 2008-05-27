@@ -228,6 +228,7 @@ def rotation_plot(filename,image_output,graph_title=''):
 	for frame in angles:
 		#frame += 180
 		target_bin = int(frame*number_of_bins/360)
+		if frame < 0: target_bin -= 1
 		bins[target_bin] += 1
 	#bins = bins[18:] + bins[:18]
 	#bins = range(36)
