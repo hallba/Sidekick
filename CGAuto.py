@@ -3,9 +3,11 @@
 import sys,os,pdbio
 from HAConf import configuration,programs
 from LipidBox import add_solvent_dppc
+from MDPGenerator import replace_seed
 import AutomatedPlot
 
 initial_sequence=sys.argv[1]
+seed = sys.argv[2]
 
 gromacs = configuration['gromacs_location']
 pymol = programs['pymol']
@@ -97,7 +99,9 @@ else:
 os.system(gromacs+"grompp -f " + configuration['mdp_files'] + "cg-em_extended -c ioned.pdb -p ioned_topol -o em >& grompp_em.log")
 os.system(gromacs+"mdrun -deffnm em")
 
-os.system(gromacs+"grompp -f " + configuration['mdp_files'] + "cg-mdrun-50ns_sts -c em -p ioned_topol -o t_0 >& grompp_md.log")
+replace_seed(configuration['mdp_files'] + "cg-mdrun-50ns_sts.mdp","runfile.mdp",seed)
+
+os.system(gromacs+"grompp -f runfile -c em -p ioned_topol -o t_0 >& grompp_md.log")
 os.system(gromacs+"mdrun -deffnm t_0")
 
 #analyse
