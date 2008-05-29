@@ -132,7 +132,7 @@ AutomatedPlot.hist_tilt_data_plot("bun_kink.xvg","hist_kink.png",initial_sequenc
 trjconv_xy_command = "echo '1\n1\n0\n' | " + gromacs + "trjconv_xy -f t_0.xtc -s em.gro -center -o xy_fit.xtc -fit rotxy+transxy"
 os.system(trjconv_xy_command)
 
-vmd_command = vmd + " xy_fit.xtc t_0.gro -e " + configuration['vmd_state_files'] + "automated_analysis.tcl -dispdev text"
+vmd_command = vmd + " xy_fit.xtc t_0.gro -dispdev text -eofexit <" + configuration['vmd_state_files'] + "automated_analysis.tcl > vmd.log"
 os.system(vmd_command)
 
 AutomatedPlot.hist_com_difference_plot("bilayer_position.dat","bilayer_position.png",initial_sequence)
