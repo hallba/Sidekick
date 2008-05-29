@@ -4,7 +4,7 @@ import os
 
 configuration = {	'gromacs_location': '/usr/local/gromacs-3.3.3/bin/',
 					'mdp_files':		'/Users/benjamin/Work/Runfiles/',
-					'vmd_state_files':	'/Users/benjamin/Scripts/VMD/tcl/',
+					'vmd_state_files':	'/Users/benjamin/Work/Sidekick/VMD/',
 					'hippo_files':		'/Users/benjamin/Work/Hippo_runfiles/',
 					'martini_systems':	'/Users/benjamin/Work/MARTINI/systems/',
 					'martini_setup':	'/Users/benjamin/Work/MARTINI/Setup/',
