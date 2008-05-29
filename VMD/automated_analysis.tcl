@@ -1,6 +1,8 @@
 set location "~/Scripts/VMD/tcl/"
 source ${location}TM_analysis.tcl
 comz_distances "name \"B.*\"" "resname DPPC DPPG DPPE" bilayer_position.dat
+lipid_deformation "name \"B.*\"" "resname DPPC DPPG DPPE" up.dat down.dat
+helix_rotation "not resname W ION DPPC" "resname DPPC DPPG DPPE" rot.dat
 
 rotate x by 90
 scale by 2
