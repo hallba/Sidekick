@@ -412,6 +412,16 @@ proc helix_rotation {proteinselection lipidselection outfile_name} {
 		return [ lindex $unit_vector_from_axis 2 ]
 	}
 	
+	proc calculate_unit_vector_in_xy {start_com end_com ref_atom} {
+		set Rxyz [lindex [$ref_atom get {x y z}] 0]
+		set SR [vecsub $Rxyz $start_com]
+		set SE [vecsub $end_com $start_com]
+		set SN [vecscale $SE [expr [veclength $SR]/[veclength $SE] * [vecdot [vecnorm $SE] [vecnorm $SR ] ] ] ]
+		set vector_from_axis [ vecsub $SR $SN ]
+		set unit_vector_from_axis [vecnorm [list [lindex $vector_from_axis 0] [lindex $vector_from_axis 1] 0 ]]
+		return $unit_vector_from_axis
+	}
+	
 	proc angle_wrap {angle} {
 		global M_PI
 		if {$angle > $M_PI } {set angle [expr $angle - 2*$M_PI]}
@@ -499,15 +509,31 @@ proc helix_rotation {proteinselection lipidselection outfile_name} {
 			set unit_direction_vector_z [calculate_unit_vector_to_axis_z $start_com $end_com [lindex $rotation_start 0] ]
 			set unit_direction_vector_z_ref [calculate_unit_vector_to_axis_z $start_com $end_com [lindex $rotation_start 1] ]
 			
+			#calculate the angle in xy of the helix axis with NR
+			set unit_direction_vector_xy [calculate_unit_vector_in_xy $start_com $end_com [lindex $rotation_start 0] ]
+			set unit_helix_axis_xy [vecnorm [list [lindex $helix_axis 0] [lindex $helix_axis 1] 0] ]
+			#Calculate the cross product to get the side
+			set side_modifier [lindex [veccross $unit_helix_axis_xy $unit_direction_vector_xy] 2]
+			#set xy_plane_angle [expr acos([vecdot $unit_helix_axis_xy $unit_direction_vector_xy])]
+			
 			#Put in a directionality- 0 degrees should face the upperbilayer ()
 			#based on up being when startcom_z is above protein_comz
 			
 			set start_comz [lindex $start_com 2]
 			set lipid_comz [lindex [measure center $lipid] 2]
 			
-			if { $start_comz < $lipid_comz} { set unit_direction_vector_z [expr -$unit_direction_vector_z]; set unit_direction_vector_z_ref [expr -$unit_direction_vector_z_ref];  }
+			#moved modification of "side" to the end to make it simpler
+			#if { $start_comz < $lipid_comz} { set unit_direction_vector_z [expr -$unit_direction_vector_z]; set unit_direction_vector_z_ref [expr -$unit_direction_vector_z_ref];  }
 			
 			set cosine_vector_z [expr $unit_direction_vector_z / $helix_angle_transformation]
+			
+			set rad_rotation [expr $side_modifier * acos($cosine_vector_z)]
+				
+			if { $start_comz < $lipid_comz} { set $rad_rotation [angle_wrap [expr $rad_rotation + $M_PI]] }
+			
+			set rotation [expr 180/$M_PI * $rad_rotation]
+			
+			if 0 {
 			set cosine_vector_z_ref [expr $unit_direction_vector_z_ref / $helix_angle_transformation]
 			
 			#Finally, to calculate the absolute angle of the reference vector we need to do a simulataneous equation
@@ -553,18 +579,18 @@ proc helix_rotation {proteinselection lipidselection outfile_name} {
 			} else {
 				set rotation [expr 180*[lindex $possible_results 1]/$M_PI]
 			}
-			
+			}
 			#puts $outfile "$i $cosine_vector_z"
-			puts $outfile "$i $rotation $noideality"
+			puts $outfile "$i $rotation"
 			
 			#if {$noideality < 30} {puts $outfile "$i $rotation"}
 			
 			flush $outfile
 			
 			#Debug
-			#if 0 {
+			if 0 {
 			puts "$possible_results\n$possible_results_ref\n$differences\n$minimum_difference\nFinal $rotation $noideality"
-			#}
+			}
 			if 0 {
 			if { $i == 0 } {continue}
 			if { [expr $i % [expr 10 * $increment]] == 0 } { puts -nonewline "." }
