@@ -1,7 +1,8 @@
-set location "~/Scripts/VMD/tcl/"
+set location "~/Work/Sidekick/VMD/"
 source ${location}TM_analysis.tcl
 comz_distances "name \"B.*\"" "resname DPPC DPPG DPPE" bilayer_position.dat
-lipid_deformation "name \"B.*\"" "resname DPPC DPPG DPPE" up.dat down.dat
+#lipid_deformation "name \"B.*\"" "resname DPPC DPPG DPPE" up.dat down.dat
+lipid_deformation_refined "name \"B.*\"" "resname DPPC DPPG DPPE" up.dat down.dat
 helix_rotation "not resname W ION DPPC" "resname DPPC DPPG DPPE" rot.dat
 
 rotate x by 90
@@ -36,7 +37,7 @@ for {set i 0} {$i < $numframes} {incr i 50} {
 	#Linux
 	#render Tachyon $i.dat /usr/local/lib/vmd/tachyon_LINUX  -auto_skylight 0.8 %s -o $i.tga
 	#Mac
-	render Tachyon $i.dat "/Applications/VMD-1.8.6.app/Contents/vmd/tachyon_MACOSXX86"  -auto_skylight 0.8 %s -o $i.tga
+	render Tachyon $i.dat '/Applications/VMD\ 1.8.6.app/Contents/vmd/tachyon_MACOSXX86'  -auto_skylight 0.8 %s -o $i.tga
 	}
 	
 exit
