@@ -127,7 +127,7 @@ proc lipid_deformation {proteinselection lipidselection upper_outfile_name lower
 		
 		#Ignore the first 1/5th 
 		set start_time [expr $numframes/5]
-		for {set i $start_time} {$i < $numframes} {incr i $increment} {
+		for {set i 0} {$i < $numframes} {incr i $increment} {
 			$all frame $i
 			$all update
 			$protein frame $i
@@ -436,4 +436,106 @@ proc helix_rotation {proteinselection lipidselection outfile_name} {
 		}
 	
 	main $proteinselection $lipidselection $outfile_name
+}
+
+proc lipid_deformation_refined {proteinselection lipidselection upper_outfile_name lower_outfile_name ignore_start} {
+	
+	proc main {proteinselection lipidselection upper_outfile_name lower_outfile_name ignore_start} {
+		set numframes [expr {[molinfo top get numframes]}]
+		puts "total number of frames: $numframes"
+		set upper_outfile [open $upper_outfile_name w]
+		set lower_outfile [open $lower_outfile_name w]
+		
+		set protein [atomselect top $proteinselection ]
+		set lipid [atomselect top $lipidselection ]
+		set phosphates [atomselect top "$lipidselection and name PO4"]
+		set all [atomselect top "all" ]
+		
+		set increment 1
+		
+		if { [molinfo top get a] > [molinfo top get b] } {
+			set box_rad [molinfo top get b]
+		} else {
+			set box_rad [molinfo top get a]
+		}
+		
+		set bins [expr int($box_rad/(2*5))]
+		
+		# for each bin a new line will be written ie 7\n{bin 1/frame 1 phosphates z}\n{bin2/frame1 Pz}..binN/frame1\n{bin1frame2}...
+		
+		set upper_list [list]
+		set lower_list [list]
+		
+		for {set i 0} {$i < $bins} {incr i 1} {
+			lappend upper_list [list]
+			lappend lower_list [list]
+		}
+		
+		#Ignore the first $ignore_start
+		for {set i $ignore_start} {$i < $numframes} {incr i $increment} {
+			$all frame $i
+			$all update
+			$protein frame $i
+			$protein update
+			$lipid frame $i
+			$lipid update
+			$phosphates frame $i
+			$phosphates update
+			
+			set pcom [measure center $protein]
+			set lcom [measure center $lipid]
+			set topcom [measure center [atomselect top "resid 1" frame $i]]
+			
+			set px [lindex $pcom 0]
+			set py [lindex $pcom 1]
+			set pz [lindex $pcom 2]
+			set lz [lindex $lcom 2]
+			set topz [lindex $topcom 2]
+			
+			set phosphate_positions [$phosphates get {x y z}]
+			foreach particle $phosphate_positions {
+				set resx [lindex $particle 0]
+				set resy [lindex $particle 1]
+				
+				set d2 [expr ($resx - $px)*($resx - $px) + ($resy - $py)*($resy - $py)]
+				if {$d2 < 0} { set d2 [expr 0 - $d2] }
+				set distance [expr sqrt($d2) ]
+				
+				set target_box [expr int($distance/5)]
+				set resz [lindex $particle 2]
+				set thickness [expr $resz - $lz]
+				if {$thickness < 0} { set thickness [expr 0 - $thickness] }
+				#puts "T $target_box L $bin_no"
+				if {$target_box >= $bins} { continue }
+				
+				if {$resz > $lz && $topz > $lz} {
+					lset upper_list $target_box [concat [lindex $upper_list $target_box] [list $thickness ] ] 
+				} elseif {$resz < $lz && $topz < $lz} {
+					lset upper_list $target_box [concat [lindex $upper_list $target_box] [list $thickness ] ] 
+				} else {
+					lset lower_list $target_box [concat [lindex $lower_list $target_box] [list $thickness ] ] 
+				}
+			}
+			
+			if { $i == 0 } {continue}
+			if { [expr $i % [expr 10 * $increment]] == 0 } { puts -nonewline "." }
+      			if { [expr $i % [expr 500 * $increment]] == 0 } { puts " " }
+			
+			flush stdout
+    		}
+    		
+    		foreach bin $upper_list {
+				puts $upper_outfile "$bin"
+			}
+			
+			foreach bin $lower_list {
+				puts $lower_outfile "$bin"
+			}
+			
+			flush $upper_outfile
+			flush $lower_outfile
+			
+		}
+		
+	main $proteinselection $lipidselection $upper_outfile_name $lower_outfile_name $ignore_start
 }
