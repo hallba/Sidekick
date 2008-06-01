@@ -401,7 +401,7 @@ proc lipid_deformation_test {proteinselection lipidselection upper_outfile_name 
 }
 
 proc helix_rotation {proteinselection lipidselection outfile_name} {
-	
+	if 0 {
 	proc calculate_unit_vector_to_axis_z {start_com end_com ref_atom} {
 		set Rxyz [lindex [$ref_atom get {x y z}] 0]
 		set SR [vecsub $Rxyz $start_com]
@@ -421,6 +421,28 @@ proc helix_rotation {proteinselection lipidselection outfile_name} {
 		set unit_vector_from_axis [vecnorm [list [lindex $vector_from_axis 0] [lindex $vector_from_axis 1] 0 ]]
 		return $unit_vector_from_axis
 	}
+	}
+	
+	proc calculate_unit_vector_xyz {start_com end_com ref_atom} {
+		set Rxyz [lindex [$ref_atom get {x y z}] 0]
+		set SR [vecsub $Rxyz $start_com]
+		set SE [vecsub $end_com $start_com]
+		set SN [vecscale $SE [expr [veclength $SR]/[veclength $SE] * [vecdot [vecnorm $SE] [vecnorm $SR ] ] ] ]
+		#set vector_from_axis [ vecsub $SR $SN ]
+		set Nxyz [vecadd $SN $start_com]
+		set vector_from_axis [vecsub $Rxyz $Nxyz]
+		set unit_vector_from_axis [vecnorm $vector_from_axis ]
+		return $unit_vector_from_axis
+	}
+	
+	proc uv_start {start_com end_com ref_atom} {
+		set Rxyz [lindex [$ref_atom get {x y z}] 0]
+		set SR [vecsub $Rxyz $start_com]
+		set SE [vecsub $end_com $start_com]
+		set SN [vecscale $SE [expr [veclength $SR]/[veclength $SE] * [vecdot [vecnorm $SE] [vecnorm $SR ] ] ] ]
+		return [vecadd $SN $start_com]
+	}
+
 	
 	proc angle_wrap {angle} {
 		global M_PI
@@ -468,14 +490,11 @@ proc helix_rotation {proteinselection lipidselection outfile_name} {
 		#Select residues 1/2 for examining rotation. Residues end-1,end for examining mismatch
 		#The lists read 1,2 and end-1,end
 		
-		set start_res [lindex $protein_residues 2]
-		set start_ref [lindex $protein_residues 3]
-		
+		set start_res [lindex $protein_residues 2]		
 		set end_res [lindex $protein_residues end-2]
-		set end_ref [lindex $protein_residues end-3]
 		
-		set rotation_start [list [atomselect top "name \"B.*\" and resid $start_res"] [atomselect top "name \"B.*\" and resid $start_ref"] ]
-		set rotation_end [list [atomselect top "name \"B.*\" and resid $end_res"] [atomselect top "name \"B.*\" and resid $end_ref"] ]
+		set rotation_start [list [atomselect top "name \"B.*\" and resid $start_res"] ]
+		set rotation_end [list [atomselect top "name \"B.*\" and resid $end_res"] ]
 		
 		for {set i 0} {$i < $numframes} {incr i $increment} {
 			$all frame $i
@@ -503,93 +522,72 @@ proc helix_rotation {proteinselection lipidselection outfile_name} {
 			
 			set helix_axis [vecsub $end_com $start_com ]
 			set helix_angle [expr acos([vecdot [vecnorm $helix_axis] {0 0 1}] ) ]
-			#The z component of the unit vector to a residue is cos(rotation_angle)*cos(helix_angle_transformation)
-			set helix_angle_transformation [expr cos($M_PI/2-$helix_angle) ]
 			
-			set unit_direction_vector_z [calculate_unit_vector_to_axis_z $start_com $end_com [lindex $rotation_start 0] ]
-			set unit_direction_vector_z_ref [calculate_unit_vector_to_axis_z $start_com $end_com [lindex $rotation_start 1] ]
+			#Find the matrix to bring the helix_axis to x
+			set rotate_helix_to_x [transvecinv $helix_axis]
 			
-			#calculate the angle in xy of the helix axis with NR
-			set unit_direction_vector_xy [calculate_unit_vector_in_xy $start_com $end_com [lindex $rotation_start 0] ]
-			set unit_helix_axis_xy [vecnorm [list [lindex $helix_axis 0] [lindex $helix_axis 1] 0] ]
-			#Calculate the cross product to get the side
-			set side_modifier [lindex [veccross $unit_helix_axis_xy $unit_direction_vector_xy] 2]
-			#set xy_plane_angle [expr acos([vecdot $unit_helix_axis_xy $unit_direction_vector_xy])]
+			#Calculate the unit vector of the residue with the helix
+			set unit_direction_vector_xyz [calculate_unit_vector_xyz $start_com $end_com [lindex $rotation_start 0] ]
+			#puts "Early $unit_direction_vector_xyz"
 			
-			#Put in a directionality- 0 degrees should face the upperbilayer ()
-			#based on up being when startcom_z is above protein_comz
+			#Rotate the unit vector so that it is moving around the x axis
+			set vector_around_x [vectrans $rotate_helix_to_x $unit_direction_vector_xyz]
+			#puts "Length vx [veclength $vector_around_x]"
 			
+			#The reference vector is a unit vector in z
+			set unit_vector_z {0 0 1}
+			
+			#The angle of these two is the angle of interest- without directionality
+			set rad_rotation [expr acos([vecdot $unit_vector_z $vector_around_x])]
+			
+			#puts "Rad $rad_rotation"
+			
+			#Calculate which side the angle is using the cross product & modify rad_rotation accordingly
+			#set side_modifier [lindex [veccross $vector_around_x $unit_vector_z] 1]
+			#puts "Mod [veccross $vector_around_x $unit_vector_z]"
+			if {[lindex $vector_around_x 1] < 0} { set side_modifier -1 } else { set side_modifier 1}
+			set rad_rotation [expr $side_modifier * $rad_rotation]
+			
+			#Determine if the start is higher or lower than the lipid center- if lower, rotate so that 0 always points to the upper leaflet	
 			set start_comz [lindex $start_com 2]
 			set lipid_comz [lindex [measure center $lipid] 2]
+			if { $start_comz < $lipid_comz} {set rad_rotation [angle_wrap [expr $rad_rotation + $M_PI]]}
 			
-			#moved modification of "side" to the end to make it simpler
-			#if { $start_comz < $lipid_comz} { set unit_direction_vector_z [expr -$unit_direction_vector_z]; set unit_direction_vector_z_ref [expr -$unit_direction_vector_z_ref];  }
+			#Get rotation in degrees
+			#puts "Side mod $side_modifier"
+			#puts "New Rad $rad_rotation"
+			#puts "Pi $M_PI"
+			#puts "Rad/Pi [expr ($rad_rotation/$M_PI)]"
+			puts "Frame $i"
+			set rotation [expr ($rad_rotation/$M_PI)*180]
 			
-			set cosine_vector_z [expr $unit_direction_vector_z / $helix_angle_transformation]
-			
-			set rad_rotation [expr $side_modifier * acos($cosine_vector_z)]
-				
-			if { $start_comz < $lipid_comz} { set $rad_rotation [angle_wrap [expr $rad_rotation + $M_PI]] }
-			
-			set rotation [expr 180/$M_PI * $rad_rotation]
-			
-			if 0 {
-			set cosine_vector_z_ref [expr $unit_direction_vector_z_ref / $helix_angle_transformation]
-			
-			#Finally, to calculate the absolute angle of the reference vector we need to do a simulataneous equation
-			#This is based on the 100' rotation that is undergone between CA
-			## so acos(cosine_vector_z) = rotation
-			## acos(cosine_vector_z_ref) = rotation - 100*180/$M_PI
-			## (negative as alpha helices are right handed)
-			
-			
-			set possible_results [list [expr acos($cosine_vector_z)] [expr - acos($cosine_vector_z)]]
-			set possible_results_ref [list [expr acos($cosine_vector_z_ref) + 100*$M_PI/180] [expr - acos($cosine_vector_z_ref) + 100*$M_PI/180]]
-			#set possible_results_ref [list [expr acos($cosine_vector_z_ref)] [expr - acos($cosine_vector_z_ref)]]
-
-			
-			#Results should range over 2pi so here I "wrap around"
-			
-			lset possible_results_ref 0 [angle_wrap [lindex $possible_results_ref 0] ]
-			lset possible_results_ref 1 [angle_wrap [lindex $possible_results_ref 1] ]
-			
-			#The smallest difference indicates the correct angle
-			
-			set differences [list [expr [lindex $possible_results 0] - [lindex $possible_results_ref 0]] [expr [lindex $possible_results 1] - [lindex $possible_results_ref 1]] ]
-			
-			#now append the "cross" results ie for list AB and CD report AC BD AD BC
-			#puts [lindex $differences 0]
-			
-			lappend differences [expr [lindex $possible_results 0] - [lindex $possible_results_ref 1]]
-			lappend differences [expr [lindex $possible_results 1] - [lindex $possible_results_ref 0]]
-			
-			for {set j 0} {$j < 4} {incr j 1} {
-				lset differences $j [angle_wrap [lindex $differences $j] ]
-				lset differences $j [make_positive [lindex $differences $j] ]
-				if { [lindex $differences $j] > $M_PI } { lset differences $j [expr 2*$M_PI - [lindex $differences $j] ] }
-			}
-			
-			#puts "[lindex $differences 0] [lindex $differences 1]"
-			
-			set minimum_difference [min_element $differences]
-			set noideality [expr 180* [lindex $differences $minimum_difference]/$M_PI]
-			
-			if { $minimum_difference % 2 == 0 } {
-				set rotation [expr 180*[lindex $possible_results 0]/$M_PI]
-			} else {
-				set rotation [expr 180*[lindex $possible_results 1]/$M_PI]
-			}
-			}
-			#puts $outfile "$i $cosine_vector_z"
+			#print output to terminal and file, then continue
 			puts $outfile "$i $rotation"
-			
 			#if {$noideality < 30} {puts $outfile "$i $rotation"}
 			
 			flush $outfile
 			
 			#Debug
+			#
 			if 0 {
-			puts "$possible_results\n$possible_results_ref\n$differences\n$minimum_difference\nFinal $rotation $noideality"
+			#graphics top line $start_com [vecadd $start_com $vector_around_x]
+			graphics top color green
+			#graphics top line $start_com $end_com
+			graphics top color blue
+			graphics top line [uv_start $start_com $end_com [lindex $rotation_start 0] ] [vecadd [uv_start $start_com $end_com [lindex $rotation_start 0]] $unit_direction_vector_xyz]
+			#graphics top point $start_com
+			graphics top color red
+			#graphics top point [lindex [[lindex $rotation_start 0] get {x y z}] 0 ]
+			#graphics top line [uv_start $start_com $end_com [lindex $rotation_start 0] ] [vecadd [uv_start $start_com $end_com [lindex $rotation_start 0]] $unit_direction_vector_xyz]
+			graphics top line [uv_start $start_com $end_com [lindex $rotation_start 0] ] [lindex [[lindex $rotation_start 0] get {x y z}] 0 ]
+			
+			graphics top line {-31.2 22.5 21.2} [vecadd {-31.2 22.5 21.2} $vector_around_x]
+			graphics top color green
+			graphics top line {-31.2 22.5 21.2} {-31.2 22.5 22.2}
+			
+			puts "Rotated Vector $vector_around_x"
+			puts "Rotation $rotation"
+
 			}
 			if 0 {
 			if { $i == 0 } {continue}
