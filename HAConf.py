@@ -2,6 +2,8 @@
 
 import os
 
+debug_status = True
+
 configuration = {	'gromacs_location': '/usr/local/gromacs-3.3.3/bin/',
 					'mdp_files':		'/Users/benjamin/Work/Runfiles/',
 					'vmd_state_files':	'/Users/benjamin/Work/Sidekick/VMD/',
