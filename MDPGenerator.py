@@ -11,3 +11,10 @@ def replace_seed(filename,output_filename,seed=5):
 		if line[:8] != "gen_seed": print >>output_file, line,
 		else: print >> output_file, "gen_seed                 = " + str(seed),
 	output_file.close()
+	
+def replace_steps(filename,output_filename,steps=100):
+	output_file = open(output_filename,"w")
+	for line in open(filename):
+		if line[:6] != "nsteps": print >>output_file, line,
+		else: print >> output_file, "nsteps                   = " + str(steps),
+	output_file.close()
