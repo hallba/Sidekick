@@ -1,9 +1,9 @@
 #!/usr/bin/python
 
 import sys,os,pdbio
-from HAConf import configuration,programs
+from HAConf import configuration,programs,debug_status
 from LipidBox import add_solvent_dppc
-from MDPGenerator import replace_seed
+from MDPGenerator import replace_seed, replace_steps
 import AutomatedPlot
 
 initial_sequence=sys.argv[1]
@@ -99,7 +99,10 @@ else:
 os.system(gromacs+"grompp -f " + configuration['mdp_files'] + "cg-em_extended -c ioned.pdb -p ioned_topol -o em >& grompp_em.log")
 os.system(gromacs+"mdrun -deffnm em")
 
-replace_seed(configuration['mdp_files'] + "cg-mdrun-50ns_sts.mdp","runfile.mdp",seed)
+if debug_status:
+	replace_steps(configuration['mdp_files'] + "cg-mdrun-50ns_sts.mdp","runfile.mdp")
+else:
+	replace_seed(configuration['mdp_files'] + "cg-mdrun-50ns_sts.mdp","runfile.mdp",seed)
 
 os.system(gromacs+"grompp -f runfile -c em -p ioned_topol -o t_0 >& grompp_md.log")
 os.system(gromacs+"mdrun -deffnm t_0")
