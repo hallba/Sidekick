@@ -50,6 +50,6 @@ os.system(vmd_command)
 
 AutomatedPlot.hist_com_difference_plot("bilayer_position.dat","bilayer_position.png",initial_sequence)
 
-AutomatedPlot.bilayer_deformation_combo("up.dat","down.dat","both-bully.png",graph_title=initial_sequence)
+AutomatedPlot.bilayer_deformation_refined("up.dat","down.dat","both-bully.png",graph_title=initial_sequence)
 
 AutomatedPlot.rotation_plot("rot.dat","rotation.png",initial_sequence)
