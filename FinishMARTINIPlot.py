@@ -1,13 +1,16 @@
 #!/usr/bin/python
 
-import os,AutomatedPlot,HAConf
+import os,AutomatedPlot,HAConf, sys
 
 gromacs = HAConf.configuration['gromacs_location']
 vmd = HAConf.programs['vmd']
 from HAConf import configuration
 wd = os.getcwd()
 
-initial_sequence = wd.split('/')[-2]
+try:
+	initial_sequence = sys.argv[1]
+except:
+	initial_sequence = wd.split('/')[-2]
 
 length = len(initial_sequence)
 
@@ -18,7 +21,7 @@ else:
 
 make_ndx_command = 'echo "a b*\nr 1-7\n r ' + str(length-6) + '-' + str(length) +'\n r ' + middle_residues + '\n 16 & 17\n 16 & 18\n 16 & 19\n q\n" | '  + gromacs + 'make_ndx -f t_0 -o system.ndx'
 
-g_bundle_command = "echo '20\n21\n22\n'| g_bundle -f t_0 -s t_0 -na 1 -z -ok -n system.ndx "
+g_bundle_command = "echo '20\n21\n22\n'| " + gromacs + "g_bundle -f t_0 -s t_0 -na 1 -z -ok -n system.ndx "
 
 
 os.system(make_ndx_command)
