@@ -116,10 +116,9 @@ if length %2 == 0:
 else:
 	middle_residues = str(length/2 - 1) + "-" + str(length/2 +1)
 
-make_ndx_command = 'echo "r 1-7\n r ' + str(length-6) + '-' + str(length) +'\n r ' + middle_residues + '\n q\n" | '  + gromacs + 'make_ndx -f t_0 -o system.ndx'
+make_ndx_command = 'echo "a b*\nr 1-7\n r ' + str(length-6) + '-' + str(length) +'\n r ' + middle_residues + '\n 15 & 16\n 15 & 17\n 15 & 18\n q\n" | '  + gromacs + 'make_ndx -f t_0 -o system.ndx'
 
-g_bundle_command = "echo '16\n17\n18\n'| " + gromacs + "g_bundle -f t_0 -s t_0 -na 1 -z -ok -n system.ndx "
-
+g_bundle_command = "echo '19\n20\n21\n'| " + gromacs + "g_bundle -f t_0 -s t_0 -na 1 -z -ok -n system.ndx "
 
 os.system(make_ndx_command)
 #print make_ndx_command
@@ -132,6 +131,8 @@ AutomatedPlot.hist_tilt_data_plot("bun_tilt.xvg","hist_tilt.png",initial_sequenc
 AutomatedPlot.tilt_data_plot("bun_kink.xvg","kink_V_time.png",initial_sequence)
 AutomatedPlot.hist_tilt_data_plot("bun_kink.xvg","hist_kink.png",initial_sequence)
 
+#Nasty hack due to tempremental problem for cvs trjconv
+os.system("touch electroneg.dat; touch elements.dat")
 trjconv_xy_command = "echo '1\n1\n0\n' | " + gromacs + "trjconv_xy -f t_0.xtc -s em.gro -center -o xy_fit.xtc -fit rotxy+transxy"
 os.system(trjconv_xy_command)
 
