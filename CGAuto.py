@@ -118,7 +118,7 @@ else:
 
 make_ndx_command = 'echo "r 1-7\n r ' + str(length-6) + '-' + str(length) +'\n r ' + middle_residues + '\n q\n" | '  + gromacs + 'make_ndx -f t_0 -o system.ndx'
 
-g_bundle_command = "echo '16\n17\n18\n'| g_bundle -f t_0 -s t_0 -na 1 -z -ok -n system.ndx "
+g_bundle_command = "echo '16\n17\n18\n'| " + gromacs + "g_bundle -f t_0 -s t_0 -na 1 -z -ok -n system.ndx "
 
 
 os.system(make_ndx_command)
