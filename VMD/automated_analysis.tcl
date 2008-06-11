@@ -1,8 +1,9 @@
 set location "~/Work/Sidekick/VMD/"
 source ${location}TM_analysis.tcl
+set numframes [expr {[molinfo top get numframes]}]
 comz_distances "name \"B.*\"" "resname DPPC DPPG DPPE" bilayer_position.dat
 #lipid_deformation "name \"B.*\"" "resname DPPC DPPG DPPE" up.dat down.dat
-lipid_deformation_refined "name \"B.*\"" "resname DPPC DPPG DPPE" up.dat down.dat
+lipid_deformation_refined "name \"B.*\"" "resname DPPC DPPG DPPE" up.dat down.dat [expr $numframes/5]
 helix_rotation "not resname W ION DPPC" "resname DPPC DPPG DPPE" rot.dat
 
 rotate x by 90
