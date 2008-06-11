@@ -116,9 +116,9 @@ if length %2 == 0:
 else:
 	middle_residues = str(length/2 - 1) + "-" + str(length/2 +1)
 
-make_ndx_command = 'echo "a b*\nr 1-7\n r ' + str(length-6) + '-' + str(length) +'\n r ' + middle_residues + '\n 15 & 16\n 15 & 17\n 15 & 18\n q\n" | '  + gromacs + 'make_ndx -f t_0 -o system.ndx'
+make_ndx_command = 'echo "a b*\nr 1-7\n r ' + str(length-6) + '-' + str(length) +'\n r ' + middle_residues + '\n 16 & 17\n 16 & 18\n 16 & 19\n q\n" | '  + gromacs + 'make_ndx -f t_0 -o system.ndx'
 
-g_bundle_command = "echo '19\n20\n21\n'| " + gromacs + "g_bundle -f t_0 -s t_0 -na 1 -z -ok -n system.ndx "
+g_bundle_command = "echo '20\n21\n22\n'| " + gromacs + "g_bundle -f t_0 -s t_0 -na 1 -z -ok -n system.ndx "
 
 os.system(make_ndx_command)
 #print make_ndx_command
