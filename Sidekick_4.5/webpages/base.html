@@ -1,0 +1,99 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css"
+          href="Sidekick.css"
+          title="standard" >
+<link rel="stylesheet" type="text/css"
+          href="/Sidekick.css"
+          title="standard" >
+<style>
+body { padding:0px; margin:0px; }
+</style>
+
+<script LANGUAGE="JavaScript" SRC="/Scripts/SidekickVisualise.js">
+</script>
+</head>
+<body onload="detailStartup()">
+<div id="content">
+
+<div id="header">
+<h1>Sidekick Detail</h1>
+</div>
+
+<div id="datagraphs">
+<h2>Orientation Graphs</h2>
+
+<div id="orientation_graphs">
+<table class="datasheet">
+<tr>
+<th></th><th>Position</th><th>Tilt</th><th>Rotation</th>
+</tr>
+<tr>
+<th>Position</th><td><canvas id="position" width="200" height="150"></canvas></td><td><canvas id="pvt" width="200" height="150"></canvas></td><td><canvas id="pvr" width="200" height="150"></canvas></td>
+</tr>
+<tr>
+<th>Tilt</th><td></td><td><canvas id="tilt" width="200" height="150"></canvas></td><td><canvas id="tvr" width="200" height="150"></canvas></td>
+</tr>
+<tr>
+<th>Rotation</th><td></td><td></td><td><canvas id="rotation" width="200" height="150"></canvas></td>
+</tr>
+</table>
+</div>
+
+</div>
+
+<div id="datacartoon">
+<h2>Orientation Cartoon</h2>
+<div id="cartoon" style="text-align: center">
+<canvas id="transmembrane_cartoon" width="270" height="270"></canvas>
+</div>
+</div>
+
+<div id="settings">
+<h2>Settings</h2>
+<div id="dataset">
+Select dataset:
+<select id="datasetSelect" onchange ="detailStartup()">
+<option value="complete.xml" >Complete</option>
+<option value="transmembrane.xml" >Transmembrane</option>
+<option value="interfacial.xml" >Interfacial</option>
+</select>
+</div>
+
+<div id="colorby">
+Color by X or Y value:
+<select id="colorbySelect" onchange ="detailStartup()">
+<option value="position" >X</option>
+<option value="height" >Y</option>
+</select>
+</div>
+
+<div id="logbin">
+Log bin population?
+<select id="logbinSelect" onchange ="detailStartup()">
+<option value="false" >Off</option>
+<option value="true" >On</option>
+</select>
+</div>
+
+<div id="sidechains">
+Draw Sidechains on cartoon?
+<select id="sidechainSelect" onchange ="detailStartup()">
+<option value="false" >Cylinder</option>
+<option value="true" >Sidechains</option>
+</select>
+</div>
+
+<div id="rotateView">
+View front or back of helix?
+<select id="rotateViewSelect" onchange ="detailStartup()">
+<option value="false" >Front</option>
+<option value="true" >Back</option>
+</select>
+</div>
+
+</div>
+
+</div>
+</body>
+</html>
