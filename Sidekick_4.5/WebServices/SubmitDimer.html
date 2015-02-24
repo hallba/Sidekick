@@ -1,0 +1,284 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Sidekick for Helix Dimers</title>
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <link rel="apple-touch-icon-precomposed" href="images/sidekick_dimer.png"/>
+    <link rel="stylesheet" type="text/css"
+              href="/Sidekick.css"
+              title="standard" >
+    <SCRIPT LANGUAGE="JavaScript">
+
+
+    function changeDropdown (dropdown,v) {
+		for (i = 0; i< dropdown.options.length; i++) {
+			if (dropdown.options[i].value == v) {
+				dropdown.options[i].selected = true;
+				break;
+			}
+		}
+		return;
+	
+	}
+
+	function toggleLayer (whichDiv) {
+		var elem, vis;
+		elem = document.getElementById( whichDiv );
+		
+		vis = elem.style;
+		
+		if (vis.display =='block') {
+			vis.display = 'none'
+			}
+		else {
+			vis.display = 'block'
+			}
+		
+	}
+    
+    function layerOn (whichDiv) {
+    	var elem,vis;
+    	elem = document.getElementById(whichDiv);
+    	vis = elem.style;
+    	vis.display='block'
+    	}
+    
+    function layerOff (whichDiv) {
+    	var elem,vis;
+    	elem = document.getElementById(whichDiv);
+    	vis = elem.style;
+    	vis.display='none'
+    	}
+    
+    function layerRed (whichDiv) {
+    	var elem,vis;
+    	elem = document.getElementById(whichDiv);
+    	vis = elem.style;
+    	vis.backgroundColor='#FF0000'
+    	}
+    
+    function layerReset (whichDiv) {
+    	var elem,vis;
+    	elem = document.getElementById(whichDiv);
+    	vis = elem.style;
+    	vis.backgroundColor='#f1f1f1'
+    	}
+    function topReset (whichDiv) {
+    	var elem,vis;
+    	elem = document.getElementById(whichDiv);
+    	vis = elem.style;
+    	vis.backgroundColor='#FFFFFF'
+    	}
+    
+    function insertionPresets (form) {
+    	form.length.value = 100
+    	form.duplicates.value= 200
+    	form.biasing[1].checked = true
+    	changeDropdown(form.forcefield, "Bond")
+    	}
+    function orientationPresets (form) {
+		form.length.value = 100
+		form.duplicates.value= 100
+		form.biasing[0].checked=true
+		changeDropdown(form.forcefield, "MARTINI_1.1.2.b")
+		}
+	function setCustomPreset (form) {
+		form.simulation_type[2].checked=true
+		}
+		
+	function scrollToId (mydiv) {
+		x = document.getElementById(mydiv);
+		h= x.clientHeight + x.offsetTop
+		//alert(h)
+		//alert(x.offsetTop)
+		
+		self.scrollTo(0,h);
+		}
+	function randomJobName() {
+		var randomnumber=Math.floor(Math.random()*1000000);
+		var number_string = randomnumber.toString();
+		var pad = "";
+		for (i=0; i < (6-number_string.length); i++) {
+			pad += "0";
+			}
+		var job_name =  "web-" + pad + number_string;
+		document.forms[0].job_name.value = job_name;
+		}
+	function checkscript () {
+		//alert ("Check");
+		var length = Number(document.forms[0].length.value);
+		var duplicates = Number(document.forms[0].duplicates.value);
+		//Clean up old warnings
+		layerOff('lengthNaNWarning');
+		layerOff('lengthSizeWarning');
+		layerReset('lengthDialog');
+		layerOff('duplicateNaNWarning');
+		layerOff('duplicateSizeWarning');
+		layerReset('duplicateDialog');
+		topReset('SequenceDialog');
+		if (isNaN(length) || length == '') {
+			/*document.body.style.backgroundColor='#FF0000';*/
+			layerOn('settings');
+			layerOn('lengthNaNWarning');
+			layerRed('lengthDialog');
+			scrollToId('lengthDialog');
+			return false;
+			}
+		else if (length > 5000){
+			//document.body.style.backgroundColor='#FF0000';
+			layerOn('settings');
+			layerOn('lengthSizeWarning');
+			layerRed('lengthDialog');
+			scrollToId('lengthDialog');
+			return false;
+			}
+		
+		if (isNaN(duplicates) || duplicates == '') {
+			layerOn('settings');
+			layerOn('duplicateNaNWarning');
+			layerRed('duplicateDialog');
+			scrollToId('duplicateDialog');
+			return false;
+			}
+		else if (duplicates >= 500){
+			layerOn('settings');
+			layerOn('duplicateSizeWarning');
+			layerRed('duplicateDialog');
+			scrollToId('duplicateDialog');
+			return false;
+			}
+		//now test the sequences for sensible amino acids
+		var sequences_elem = document.getElementById("sequenceInput");
+		sequences_elem.value = sequences_elem.value.toUpperCase();
+		if (sequences_elem.value.match(/[BJOUXZ,0-9]/) || sequences_elem.value =="" ) {
+			alert("Faulty sequence");
+			layerRed('SequenceDialog');
+			return false;
+			}
+			
+		//now check the job name for spaces- simply replace with underscores
+		
+
+		//documents.forms[0].sequences.value = "";
+		//documents.forms[0].sequences.value += sequences;
+
+			
+		//alert ("Finish");
+		return true;
+		}
+    </SCRIPT>
+    
+    <style type="text/css">
+    div#settings
+    {
+    	background-color: #f1f1f1;
+		display: none;
+    }
+    div#lengthSizeWarning
+    {
+    	display: none;
+    }
+    div#lengthNaNWarning
+    {
+    	display: none;
+    }
+    div#duplicateSizeWarning
+    {
+    	display: none;
+    }
+    div#duplicateNaNWarning
+    {
+    	display: none;
+    }
+    </style>
+    
+</head>
+<body onload="setTimeout(function() { window.scrollTo(0, 1) }, 100);randomJobName()">
+<div align="center" id="Instructions">
+
+<h1>Sidekick for Helix Dimers<br></h1>
+
+</div>
+
+<!--<button type="button" onclick="randomJobName()">Click Me!</button>-->
+
+<form method="POST" action='/cgi-bin/HelixDimerSubmit.py' enctype="multipart/form-data" onsubmit="return checkscript()" id="input">
+<div id="BasicInput">
+
+<div id="SequenceDialog">
+<p>Sequences</p>
+<p>
+<textarea name="sequenceInput" id="sequenceInput" cols="85" rows="4" wrap="virtual"></textarea>
+</p>
+</div>
+
+<p>
+Parallel or antiparallel helices?
+</p>
+<p>
+<input type="radio" name="orientation" value="P" onClick="orientationPresets (this.form)" checked > Parallel
+<input type="radio" name="orientation" value="A" onClick="insertionPresets(this.form)"> Antiparallel
+</p>
+<p>Forcefield</p>
+<select name="forcefield">
+<option value="Bond" >Bond</option>
+<option value="MARTINI_1.1.2.b" >MARTINI</option>
+</select>
+
+<p><input type="submit" name="submit" value="Submit Job!"></p>
+
+<p>
+<a title="Change or view the settings" href="javascript:toggleLayer('settings');scrollToId('settings');">Settings</a>
+</p>
+
+
+
+</div>
+
+<div id="settings">
+
+
+<p>
+Simulation Length
+</p>
+<div id="lengthDialog">
+<input type="text" name="length" size="10" maxlength="10" value="500">
+<div id="lengthSizeWarning">
+<p>Must be less than or equal to 5000ns!</p>
+</div>
+<div id="lengthNaNWarning"><p>Must be a number!</p></div>
+</div>
+
+
+<p>Duplicates</p>
+
+<div id='duplicateDialog'>
+<input type="text" name="duplicates" size="10" maxlength="10" value="100">
+<div id="duplicateSizeWarning">
+<p>Must be less than or equal to 500!</p>
+</div>
+<div id="duplicateNaNWarning"><p>Must be a number!</p></div>
+</div>
+
+<p>
+Simulation Order
+</p>
+<p>
+<input type="radio" name="stripe" value="True" checked > All at once
+<input type="radio" name="stripe" value="False" > One sequence at a time
+</p>
+
+<p>Special Options</p>
+<input type="text" name="special" size="10" maxlength="10">
+
+<p>Job Name</p>
+<input type="text" name="job_name" size="20" maxlength="10">
+</div>
+
+</form>
+<br>
+<br>
+</body>
+</html>

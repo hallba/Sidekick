@@ -1,0 +1,228 @@
+<!DOCTYPE HTML>
+<html manifest="/cache.manifest">
+<head>
+<title>Sidekick Status</title>
+
+<link rel="stylesheet" type="text/css"
+              href="../Sidekick.css"
+              title="standard" >
+              
+<meta name="viewport" content="width=device-width; height=device-height; initial-scale=1.0;"/>
+<meta name="apple-touch-fullscreen" content="yes" />
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+
+
+<link rel="apple-touch-icon-precomposed" href="../images/sidekick_status.png"/>
+
+
+<script type="text/javascript">
+
+function toggleLayer (whichDiv) {
+	var elem, vis;
+	elem = document.getElementById( whichDiv );
+	
+	vis = elem.style;
+	
+	if (vis.display =='block') {
+		vis.display = 'none'
+		}
+	else {
+		vis.display = 'block'
+		}
+	
+}
+
+function read_array ( somestring ) {
+	number_array = somestring.split(',');
+	for (number_id in number_array) {
+		number_array[number_id] = parseInt(number_array[number_id]);
+		}
+	return number_array;
+	}
+
+function layerOn (whichDiv) {
+	var elem,vis;
+	elem = document.getElementById(whichDiv);
+	vis = elem.style;
+	vis.display='block'
+	}
+
+function layerOff (whichDiv) {
+	var elem,vis;
+	elem = document.getElementById(whichDiv);
+	vis = elem.style;
+	vis.display='none'
+	}
+
+function layerRed (whichDiv) {
+	var elem,vis;
+	elem = document.getElementById(whichDiv);
+	vis = elem.style;
+	vis.backgroundColor='#FF0000'
+	}
+
+function layerGrey(whichDiv) {
+	var elem,vis;
+	elem = document.getElementById(whichDiv);
+	vis = elem.style;
+	vis.backgroundColor='#EEEEEE'
+	}
+
+function generateTable(whichDiv,listofjobs,title) {
+	var text = "<h1>" + title + '</h1> <p><table class="datasheet" border="3" cellpadding="10" cellspacing="0" width="100%" id="AutoNumber1">';
+	//alert()
+	for (id in listofjobs) {
+		if ((id % 2) == 0) {
+			text = text + '<tr class="even"><td>' + listofjobs[id] + '</td></tr>';
+			} else {
+			text = text + '<tr class="odd"><td>' + listofjobs[id] + '</td></tr>';
+			}
+		}
+	text = text + '</table></p>';	
+	document.getElementById(whichDiv).innerHTML = text;
+	
+}
+
+function generateTableWithLinks(whichDiv,listofjobs,title) {
+	var text = "<h1>" + title + '</h1> <p><table class="datasheet" border="3" cellpadding="10" cellspacing="0" width="100%" id="AutoNumber1">';
+	//alert()
+	for (id in listofjobs) {
+		if ((id % 2) == 0) {
+			text = text + '<tr class="even"><td><a href="' + listofjobs[id] + '/" target="_blank">'+ listofjobs[id] + '</a></td></tr>';
+			} else {
+			text = text + '<tr class="odd"><td><a href="' + listofjobs[id] + '/" target="_blank">'+ listofjobs[id] + '</a></td></tr>';
+			}
+		}
+	text = text + '</table></p>';	
+	document.getElementById(whichDiv).innerHTML = text;
+	
+}
+
+function generateRunningTable(whichDiv,listofjobs,percentageComplete,percentageUsage,title) {
+	var text = "<h1>" + title + '</h1> <p><table class="datasheet" border="3" cellpadding="10" cellspacing="0" width="100%" id="AutoNumber1"><th>Job Name</th><th>Percent Grid Usage</th><th>Percent Complete</th></tr>';
+	//alert()
+	for (id in listofjobs) {
+		if ((id % 2) == 0) {
+			text = text + '<tr class="odd"><td>'+ listofjobs[id] + '</td><td>' + percentageUsage[id] + ' %</td><td>' + percentageComplete[id] + ' %</td></tr>';
+			} else {
+			text = text + '<tr class="even"><td>'+ listofjobs[id] + '</td><td>' + percentageUsage[id] + ' %</td><td>' + percentageComplete[id] + ' %</td></tr>';
+			}
+		}
+	text = text + '</table></p>';	
+	document.getElementById(whichDiv).innerHTML = text;
+	
+}
+
+function get_status( status_file ) {
+
+
+	xmlglial=new XMLHttpRequest();
+	xmlglial.open("GET",status_file+"?",false);
+	xmlglial.send();
+	glialDoc=xmlglial.responseXML;
+	layerOff ('warning');
+	glial_disk = read_array(glialDoc.getElementsByTagName("diskspace")[0].childNodes[0].nodeValue);
+	
+	for (id in glial_disk) {
+		
+		if (glial_disk[id] > 90) {
+			error_diskspace();
+			//alert(glial_disk[id]);
+			
+		}
+	}
+	try {
+	working = glialDoc.getElementsByTagName("working")[0].childNodes[0].nodeValue.split(',');
+	w_usage = read_array(glialDoc.getElementsByTagName("usage")[0].childNodes[0].nodeValue);
+	w_completion = read_array(glialDoc.getElementsByTagName("completion")[0].childNodes[0].nodeValue);
+	generateRunningTable('running',working,w_completion,w_usage,'Working');
+	} catch(err) {
+	error_quiet();
+	document.getElementById('running').innerHTML = "";
+	}
+	try {
+	pending = glialDoc.getElementsByTagName("pending")[0].childNodes[0].nodeValue.split(',');
+	generateTable('pending',pending,'Pending');
+	} catch(err) {
+	document.getElementById('pending').innerHTML = "";
+	}
+	available = glialDoc.getElementsByTagName("available")[0].childNodes[0].nodeValue.split(',');
+	generateTableWithLinks('available',available,'Available');
+	//alert(glial_usage[0])
+	}
+
+
+function error_connection() {
+	layerGrey('warning');
+	layerOn ('warning');
+	document.getElementById("warning").innerHTML= "<p><b><center>Warning: Connection to server broken</center></b></p>"
+	}
+
+function error_diskspace() {
+	layerRed('warning');
+	layerOn ('warning');
+	document.getElementById("warning").innerHTML= "<p><b><center>Warning: disk space at greater than 90%</center></b></p>"
+	}
+
+function error_quiet() {
+	layerRed('warning');
+	layerOn ('warning');
+	document.getElementById("warning").innerHTML= "Warning: No jobs appear to be running"
+	}
+
+function initialise_tables () {
+		//global glossy;
+		//glossy = true;
+		//glial	
+		try {
+		get_status("status.xml");
+		} catch(err) {
+		error_connection();
+		}
+		var t=setTimeout("initialise_tables()",10000);
+
+	}
+
+
+function timedRefresh(timeoutPeriod) {
+	setTimeout("location.reload(true);",timeoutPeriod);
+}
+	
+function main_loop() {
+layerOff('warning');
+initialise_tables()
+}
+
+</script>
+
+</head>
+<body onload="JavaScript:main_loop();">
+<div align="center" id="Instructions">
+
+<h1>Sidekick Status</h1>
+
+</div>
+
+<!--<button type="button" onclick="randomJobName()">Click Me!</button>-->
+
+<div id="warning">
+Hidden
+</div>
+
+<div id="running">
+
+</div>
+
+<div id="pending">
+
+</div>
+
+<div id="available">
+
+</div>
+
+<br>
+<br>
+</body>
+</html>

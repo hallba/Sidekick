@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>sidekick.xgrid_websub</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/home/hall/Software/Linux/Sidekick-Install/Sidekick/WebSubmit.py</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>StandardErrorPath</key>
+	<string>/tmp/xgrid_websub-daemon_stderr.txt</string>
+	<key>StandardOutPath</key>
+	<string>/tmp/xgrid_websub-daemon_stdout.txt</string>
+	<key>StartInterval</key>
+	<integer>120</integer>
+</dict>
+</plist>
