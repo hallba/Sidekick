@@ -1,0 +1,848 @@
+: FORCEFIELD V1.4 
+
+[ defaults ]
+1       1
+
+[ atomtypes ]
+;name        mass      charge   ptype         c6           c12
+
+; polar type
+P          72.0        0.000     A           0.0           0.0
+; non polar
+N0         72.0        0.000     A           0.0           0.0
+Nd         72.0        0.000     A           0.0           0.0
+Na         72.0        0.000     A           0.0           0.0
+Nda         72.0        0.000     A           0.0           0.0
+Nm            72.0        0.000     A           0.0           0.0
+; apolar
+C          72.0        0.000     A           0.0           0.0
+; charged
+Q0         72.0        0.000     A           0.0           0.0
+Qd         72.0        0.000     A           0.0           0.0
+Qa         72.0        0.000     A           0.0           0.0
+Qda         72.0        0.000     A           0.0           0.0
+; special
+X          72.0        0.000     A           0.0           0.0
+
+
+; subtupe 0 has no hydrogen bond forming capacities,
+; subtype d has some hydrogen donor capacities, 
+; subtype a some hydrogen acceptor capacities, 
+; and subtype da has strong donor or acceptor capacities or both
+
+
+[ nonbond_params ]
+;
+; sigma=0.47 
+; I - attractive: (eps=5) 
+; II - semi attractive: (eps=4.2), 
+; III - intermediate: (eps=3.4), 
+; IV - semi repulsive: (eps=2.6), 
+; V - repulsive: (eps=1.8)
+
+; i    	j	funda      c6           c12 
+  P     P         1        0.21558E-00   0.23238E-02   ; attractive 
+  N0    N0        1        0.14660E-00   0.15802E-02   ; intermediate 
+  Nd    Nd        1        0.18108E-00   0.19520E-02   ; semi attractive
+  Na    Na        1        0.18108E-00   0.19520E-02   ; semi attractive
+  Nda   Nda       1        0.21558E-00   0.23238E-02   ; attractive 
+  C     C         1        0.14660E-00   0.15802E-02   ; intermediate 
+  Q0    Q0        1        0.14660E-00   0.15802E-02   ; intermediate 
+  Qd    Qd        1        0.14660E-00   0.15802E-02   ; intermediate 
+  Qa    Qa        1        0.14660E-00   0.15802E-02   ; intermediate 
+  Qda   Qda       1        0.21558E-00   0.23238E-02   ; attractive 
+  P     N0        1        0.11210E-00   0.12084E-02   ; semi repulsive
+  P     Nd        1        0.14660E-00   0.15802E-02   ; intermediate 
+  P     Na        1        0.14660E-00   0.15802E-02   ; intermediate 
+  P     Nda       1        0.18108E-00   0.19520E-02   ; semi attractive
+  P     C         1        0.77610E-01   0.83658E-03   ; repulsive 
+  P     Q0        1        0.21558E-00   0.23238E-02   ; attractive 
+  P     Qd        1        0.21558E-00   0.23238E-02   ; attractive 
+  P     Qa        1        0.21558E-00   0.23238E-02   ; attractive 
+  P     Qda       1        0.21558E-00   0.23238E-02   ; attractive 
+  N0    Nd        1        0.14660E-00   0.15802E-02   ; intermediate 
+  N0    Na        1        0.14660E-00   0.15802E-02   ; intermediate 
+  N0    Nda       1        0.14660E-00   0.15802E-02   ; intermediate 
+  N0    C         1        0.14660E-00   0.15802E-02   ; intermediate 
+  N0    Q0        1        0.14660E-00   0.15802E-02   ; intermediate 
+  N0    Qd        1        0.14660E-00   0.15802E-02   ; intermediate 
+  N0    Qa        1        0.14660E-00   0.15802E-02   ; intermediate 
+  N0    Qda       1        0.14660E-00   0.15802E-02   ; intermediate 
+  Nd    Na        1        0.18108E-00   0.19520E-02   ; semi attractive
+  Nd    Nda       1        0.18108E-00   0.19520E-02   ; semi attractive
+  Nd    C         1        0.11210E-00   0.12084E-02   ; semi repulsive
+  Nd    Q0        1        0.14660E-00   0.15802E-02   ; intermediate 
+  Nd    Qd        1        0.14660E-00   0.15802E-02   ; intermediate 
+  Nd    Qa        1        0.18108E-00   0.19520E-02   ; semi attractive
+  Nd    Qda       1        0.18108E-00   0.19520E-02   ; semi attractive
+  Na    Nda       1        0.18108E-00   0.19520E-02   ; semi attractive
+  Na    C         1        0.11210E-00   0.12084E-02   ; semi repulsive
+  Na    Q0        1        0.14660E-00   0.15802E-02   ; intermediate 
+  Na    Qd        1        0.18108E-00   0.19520E-02   ; semi attractive
+  Na    Qa        1        0.14660E-00   0.15802E-02   ; intermediate 
+  Na    Qda       1        0.18108E-00   0.19520E-02   ; semi attractive
+  Nda   C         1        0.77610E-01   0.83658E-03   ; repulsive 
+  Nda   Q0        1        0.14660E-00   0.15802E-02   ; intermediate 
+  Nda   Qd        1        0.18108E-00   0.19520E-02   ; semi attractive
+  Nda   Qa        1        0.18108E-00   0.19520E-02   ; semi attractive
+  Nda   Qda       1        0.21558E-00   0.23238E-02   ; attractive 
+  C     Q0        1        0.77610E-01   0.83658E-03   ; repulsive 
+  C     Qd        1        0.77610E-01   0.83658E-03   ; repulsive 
+  C     Qa        1        0.77610E-01   0.83658E-03   ; repulsive 
+  C     Qda       1        0.77610E-01   0.83658E-03   ; repulsive 
+  Q0    Qa        1        0.14660E-00   0.15802E-02   ; intermediate 
+  Q0    Qd        1        0.14660E-00   0.15802E-02   ; intermediate 
+  Q0    Qda       1        0.18108E-00   0.19520E-02   ; semi attractive
+  Qd    Qa        1        0.18108E-00   0.19520E-02   ; semi attractive
+  Qd    Qda       1        0.21558E-00   0.23238E-02   ; attractive
+  Qa    Qda       1        0.21558E-00   0.23238E-02   ; attractive
+  X     C         1        0.14660E-00   0.15802E-02   ; intermediate
+  P     X         1        0.77610E-01   0.83658E-03   ; repulsive
+  N0    X         1        0.14660E-00   0.15802E-02   ; intermediate   
+  Nd    X         1        0.11210E-00   0.12084E-02   ; semi repulsive
+  Na    X         1        0.11210E-00   0.12084E-02   ; semi repulsive 
+  Nda   X         1        0.77610E-01   0.83658E-03   ; repulsive
+  X     Q0        1        0.77610E-01   0.83658E-03   ; repulsive
+  X     Qd        1        0.77610E-01   0.83658E-03   ; repulsive
+  X     Qa        1        0.77610E-01   0.83658E-03   ; repulsive   
+  X     Qda       1        0.77610E-01   0.83658E-03   ; repulsive
+  X     X         1        0.025007E-00   0.026956E-02   ; super-attractive 5.8 
+;  X     X         1        0.25007E-00   0.26956E-02   ; super-attractive 5.8 
+  Nm    Nm        1        0.18108E-00   0.19520E-02   ; semi attractive
+  P     Nm        1        0.14660E-00   0.15802E-02   ; intermediate 
+  N0    Nm        1        0.14660E-00   0.15802E-02   ; intermediate 
+  Nm    Na        1        0.18108E-00   0.19520E-02   ; semi attractive
+  Nm    Nda       1        0.18108E-00   0.19520E-02   ; semi attractive
+  Nm    C         1        0.11210E-00   0.12084E-02   ; semi repulsive
+  Nm    Q0        1        0.14660E-00   0.15802E-02   ; intermediate 
+  Nm    Qd        1        0.14660E-00   0.15802E-02   ; semi attractive
+  Nm    Qa        1        0.18108E-00   0.19520E-02   ; semi attractive
+  Nm    Qda       1        0.18108E-00   0.19520E-02   ; semi attractive
+  Nm    Nd        1        0.18108E-00   0.19520E-02   ; semi attractive  
+
+
+
+
+  
+;;;;;; 4 WATER MOLECULES
+
+[ moleculetype ]
+; molname       nrexcl
+W                1
+
+[ atoms ]
+;id type resnr residu atom cgnr   charge
+ 1   P    1     W      W    1      0    
+
+;;;;;; HYDRATED SODIUM ION
+
+[ moleculetype ]
+; molname       nrexcl
+NA                1
+
+[ atoms ]
+;id type resnr residu atom cgnr   charge
+ 1   Qda   1     ION      NA    1    0.7    
+
+;;;;;; SPECIAL HYDRATED SODIUM ION
+
+[ moleculetype ]
+; molname       nrexcl
+NA+                1
+
+[ atoms ]
+;id type resnr residu atom cgnr   charge
+ 1   Qda   1     ION      NA    1    0.75    
+
+;;;;;; ANOTHER SPECIAL HYDRATED SODIUM ION
+
+[ moleculetype ]
+; molname       nrexcl
+NAZ                 1
+
+[ atoms ]
+;id type resnr residu atom cgnr   charge
+ 1   Qda   1     ION      NA    1    0.5    
+
+
+
+
+
+
+
+
+;;;;;; HYDRATED CHLORIDE ION
+
+
+[ moleculetype ]
+; molname       nrexcl
+CL                1
+
+[ atoms ]
+;id type resnr residu atom cgnr   charge
+ 1   Qda   1     ION      CL    1     -0.7    
+
+
+[ moleculetype]
+CLZ     1
+
+[atoms]
+1  Qda   1    CLZ   CLZ    1  -0.6
+
+
+
+
+
+
+;;;;;; BUTANE
+
+[ moleculetype ]
+; molname       nrexcl
+BUT                1
+
+[ atoms ]
+;id type resnr residu atom cgnr   charge
+ 1   C    1     BUT     C    1      0    
+
+
+;;;;;; OCTANE
+
+[ moleculetype ]
+; molname       nrexcl
+OCT                1
+
+[ atoms ]
+;id type resnr residu atom cgnr   charge
+ 1   C    1     OCT     C    1      0    
+ 2   C    1     OCT     C    2      0    
+
+[bonds]
+;  i     j   funct   length  force.c.
+   1     2    1       0.47     1250
+
+
+
+;;;;;; DODECANE
+
+[ moleculetype ]
+; molname       nrexcl
+DEC                1
+
+[ atoms ]
+;id type resnr residu atom cgnr   charge
+ 1   C    1     DEC     C    1      0    
+ 2   C    1     DEC     C    2      0    
+ 3   C    1     DEC     C    3      0    
+
+[bonds]
+;  i     j   funct   length  force.c.
+   1     2    1       0.47     1250
+   2     3    1       0.47     1250
+
+[angles]
+;  i     j    k     funct   angle  force.c.
+    1     2    3       2   180.000    25.0 
+
+;;;;;; HEXADECANE
+
+[ moleculetype ]
+; molname       nrexcl
+HD                1
+
+[ atoms ]
+;id type resnr residu atom cgnr   charge
+ 1   C    1     HD     C    1      0    
+ 2   C    1     HD     C    2      0    
+ 3   C    1     HD     C    3      0    
+ 4   C    1     HD     C    4      0    
+
+[bonds]
+;  i     j   funct   length  force.c.
+   1     2    1       0.47   1250
+   2     3    1       0.47   1250
+   3     4    1       0.47   1250
+
+[angles]
+;  i     j    k     funct   angle  force.c.
+   1     2    3       2   180.000    25.0 
+   2     3    4       2   180.000    25.0 
+
+;;;;;; OCTADECANE
+
+[ moleculetype ]
+; molname       nrexcl
+OD                1
+
+[ atoms ]
+;id type resnr residu atom cgnr   charge
+ 1   C    1     OD     C    1      0    
+ 2   C    1     OD     C    2      0    
+ 3   C    1     OD     C    3      0    
+ 4   C    1     OD     C    4      0    
+ 5   C    1     OD     C    5      0    
+
+[bonds]
+;  i     j   funct   length  force.c.
+   1     2    1       0.47   1250
+   2     3    1       0.47   1250
+   3     4    1       0.47   1250
+   4     5    1       0.47   1250
+
+[angles]
+;  i     j    k     funct   angle  force.c.
+   1     2    3       2   180.000    25.0 
+   2     3    4       2   180.000    25.0 
+   3     4    5       2   180.000    25.0 
+
+;;;;;; OCTADECENE
+
+[ moleculetype ]
+; molname       nrexcl
+ODE                1
+
+[ atoms ]
+;id type resnr residu atom cgnr   charge
+ 1   C    1     ODE    C    1      0    
+ 2   C    1     ODE    C    2      0    
+ 3   C    1     ODE    C    3      0    
+ 4   C    1     ODE    C    4      0    
+ 5   C    1     ODE    C    5      0    
+
+[bonds]
+;  i     j   funct   length  force.c.
+   1     2    1       0.47    1250
+   2     3    1       0.47    1250
+   3     4    1       0.47    1250
+   4     5    1       0.47    1250
+
+[angles]
+;  i     j    k     funct   angle  force.c.
+   1     2    3       2   180.000    25.0 
+   2     3    4       2   120.000    35.0 
+   3     4    5       2   180.000    25.0 
+
+;;;;;; DODECYL PHOSPHOCHOLINE
+
+[ moleculetype ]
+; molname       nrexcl
+DPC                1
+
+[ atoms ]
+;id type resnr residu atom cgnr   charge
+ 1   Q0   1     DPC     NC3  1      1.0    
+ 2   Qa   1     DPC     PO4  2      -1.0    
+ 3   C    1     DPC     C1   3      0    
+ 4   C    1     DPC     C2   4      0    
+ 5   C    1     DPC     C3   5      0    
+
+[bonds]
+;  i     j   funct   length  force.c.
+   1     2    1       0.47     1250
+   2     3    1       0.47     1250
+   3     4    1       0.47     1250
+   4     5    1       0.47     1250
+ 
+[angles]
+;  i     j    k     funct   angle  force.c.
+   3     4    5       2   180.000   25.0 
+  
+;;;;;; DIPALMITOYL PHOSPHATIDYLCHOLINE
+
+[ moleculetype ]
+; molname       nrexcl
+DPPC                1
+
+[ atoms ]
+;id type resnr residu atom cgnr   charge
+ 1   Q0   1     DPPC     NC3    1      1.0    
+ 2   Qa   1     DPPC     PO4    2     -1.0    
+ 3   Na   1     DPPC     GL1    3      0    
+ 4   Na   1     DPPC     GL2    4      0    
+ 5   C    1     DPPC     C1A    5      0    
+ 6   C    1     DPPC     C2A    6      0    
+ 7   C    1     DPPC     C3A    7      0    
+ 8   C    1     DPPC     C4A    8      0    
+ 9   C    1     DPPC     C1B    9      0    
+ 10  C    1     DPPC     C2B    10      0    
+ 11  C    1     DPPC     C3B    11      0    
+ 12  C    1     DPPC     C4B    12      0    
+
+[bonds]
+;  i     j   funct   length  force.c.
+   1     2    1       0.470    1250
+   2     3    1       0.470    1250
+   3     4    1       0.470    1250
+   3     5    1       0.470    1250
+   5     6    1       0.470    1250
+   6     7    1       0.470    1250
+   7     8    1       0.470    1250
+   4     9    1       0.470    1250
+   9     10   1       0.470    1250
+   10    11   1       0.470    1250
+   11    12   1       0.470    1250
+
+[angles]
+;  i     j    k     funct   angle  force.c.
+   2     3    4       2    120.000   25.0 
+   2     3    5       2    180.000   25.0 
+   3     5    6       2   180.000  25.0 
+   5     6    7       2   180.000  25.0 
+   6     7    8       2   180.000  25.0 
+   4     9   10       2   180.000  25.0 
+   9    10   11       2   180.000  25.0 
+  10    11   12       2   180.000  25.0 
+
+
+;;;;;; DIHEXANOYL PHOSPHATIDYLCHOLINE
+
+[ moleculetype ]
+; molname       nrexcl
+DHPC                1
+
+[ atoms ]
+;id type resnr residu atom cgnr   charge
+ 1   Q0   1     DHPC     NC3    1      1.0    
+ 2   Qa   1     DHPC     PO4    2     -1.0    
+ 3   Na   1     DHPC     GL1    3      0    
+ 4   Na   1     DHPC     GL2    4      0    
+ 5   C    1     DHPC     C1A    5      0    
+ 6   C    1     DHPC     C2A    6      0    
+ 7   C    1     DHPC     C1B    7      0    
+ 8   C    1     DHPC     C2B    8      0    
+
+[bonds]
+;  i     j   funct   length  force.c.
+   1     2    1       0.470    1250
+   2     3    1       0.470    1250
+   3     4    1       0.470    1250
+   3     5    1       0.470    1250
+   5     6    1       0.470    1250
+   4     7    1       0.470    1250
+   7     8    1       0.470    1250
+
+[angles]
+;  i     j    k     funct   angle  force.c.
+   2     3    4       2    120.000   25.0 
+   2     3    5       2    180.000   25.0 
+   3     5    6       2   180.000  25.0 
+   4     7    8       2   180.000  25.0 
+
+
+;;;;;; PALMITOYL PHOSPHATIDYLCHOLINE
+
+[ moleculetype ]
+; molname       nrexcl
+PPC                1
+
+[ atoms ]
+;id type resnr residu atom cgnr   charge
+ 1   Q0   1     PPC     NC3    1      1.0    
+ 2   Qa   1     PPC     PO4    2     -1.0    
+ 3   Nda  1     PPC     GL1    3      0    
+ 4   Na   1     PPC     GL2    4      0    
+ 5   C    1     PPC     C1B    5      0    
+ 6   C    1     PPC     C2B    6       0    
+ 7   C    1     PPC     C3B    7       0    
+ 8   C    1     PPC     C4B    8       0    
+
+[bonds]
+;  i     j   funct   length  force.c.
+   1     2    1       0.470    1250
+   2     3    1       0.470    1250
+   3     4    1       0.470    1250
+   4     5    1       0.470    1250
+   5     6    1       0.470    1250
+   6     7    1       0.470    1250
+   7     8    1       0.470    1250
+
+[angles]
+;  i     j    k     funct   angle  force.c.
+   2     3    4       2    120.000   25.0 
+   3     4    5       2   180.000  25.0 
+   4     5    6       2   180.000  25.0 
+   5     6    7       2   120.000  35.0 
+   6     7    8       2   180.000  25.0 
+
+
+
+;;;;;; PALMITOYL OLEOYL PHOSPHATIDYLCHOLINE
+
+[ moleculetype ]
+; molname       nrexcl
+POPC                1
+
+[ atoms ]
+;id type resnr residu atom cgnr   charge
+ 1   Q0   1     POPC     NC3    1      1.0    
+ 2   Qa   1     POPC     PO4    2     -1.0    
+ 3   Na   1     POPC     GL1    3      0    
+ 4   Na   1     POPC     GL2    4      0    
+ 5   C    1     POPC     C1A    5      0    
+ 6   C    1     POPC     C2A    6      0    
+ 7   C    1     POPC     C3A    7      0    
+ 8   C    1     POPC     C4A    8      0    
+ 9   C    1     POPC     C1B    9      0    
+ 10  C    1     POPC     C2B    10      0    
+ 11  C    1     POPC     D3B    11      0    
+ 12  C    1     POPC     C4B    12      0    
+ 13  C    1     POPC     C5B    13      0    
+
+[bonds]
+;  i     j   funct   length  force.c.
+   1     2    1       0.47     1250
+   2     3    1       0.47     1250
+   3     4    1       0.47     1250
+   4     5    1       0.47     1250
+   5     6    1       0.47     1250
+   6     7    1       0.47     1250
+   7     8    1       0.47     1250
+   3     9    1       0.47     1250
+   9     10   1       0.47     1250
+   10    11   1       0.47     1250
+   11    12   1       0.47     1250
+   12    13   1       0.47     1250
+
+[angles]
+;  i     j    k     funct   angle  force.c.
+    2     3    4       2    120.000   25.0 
+    2     3    5       2    180.000   25.0 
+   4     5    6       2   180.000  25.0 
+   5     6    7       2   180.000  25.0 
+   6     7    8       2   180.000  25.0 
+   3     9   10       2   180.000  25.0 
+   9    10   11       2   180.000  25.0 
+  10    11   12       2   120.000  35.0 
+  11    12   13       2   180.000  25.0 
+
+;;;;;; PALMITOYL OLEOYL PHOSPHATIDYLETHANOLAMINE
+
+[ moleculetype ]
+; molname       nrexcl
+POPE                1
+
+[ atoms ]
+;id type resnr residu atom cgnr   charge
+ 1   Qda  1     POPE     NH3    1      1.0    
+ 2   Qa   1     POPE     PO4    2     -1.0    
+ 3   Na   1     POPE     GL1    3      0    
+ 4   Na   1     POPE     GL2    4      0    
+ 5   C    1     POPE     C1A    5      0    
+ 6   C    1     POPE     C2A    6      0    
+ 7   C    1     POPE     C3A    7      0    
+ 8   C    1     POPE     C4A    8      0    
+ 9   C    1     POPE     C1B    9      0    
+ 10  C    1     POPE     C2B    10      0    
+ 11  C    1     POPE     D3B    11      0    
+ 12  C    1     POPE     C4B    12      0    
+ 13  C    1     POPE     C5B    13      0    
+
+[bonds]
+;  i     j   funct   length  force.c.
+   1     2    1       0.47     1250
+   2     3    1       0.47     1250
+   3     4    1       0.47     1250
+   4     5    1       0.47     1250
+   5     6    1       0.47     1250
+   6     7    1       0.47     1250
+   7     8    1       0.47     1250
+   3     9    1       0.47     1250
+   9     10   1       0.47     1250
+   10    11   1       0.47     1250
+   11    12   1       0.47     1250
+   12    13   1       0.47     1250
+
+[angles]
+;  i     j    k     funct   angle  force.c.
+    2     3    4       2    120.000   25.0 
+    2     3    5       2    180.000   25.0 
+   4     5    6       2   180.000  25.0 
+   5     6    7       2   180.000  25.0 
+   6     7    8       2   180.000  25.0 
+   3     9   10       2   180.000  25.0 
+   9    10   11       2   180.000  25.0 
+  10    11   12       2   120.000  35.0 
+  11    12   13       2   180.000  25.0 
+
+;;;;;; DIPALMITOYL PHOSPHATIDYLETHANOLAMINE
+
+[ moleculetype ]
+; molname       nrexcl
+DPPE                1
+
+[ atoms ]
+;id type resnr residu atom cgnr   charge
+ 1   Qda  1     DPPE     NH3    1      1.0    
+ 2   Qa   1     DPPE     PO4    2     -1.0    
+ 3   Na   1     DPPE     GL1    3      0    
+ 4   Na   1     DPPE     GL2    4      0    
+ 5   C    1     DPPE     C1A    5      0    
+ 6   C    1     DPPE     C2A    6      0    
+ 7   C    1     DPPE     C3A    7      0    
+ 8   C    1     DPPE     C4A    8      0    
+ 9   C    1     DPPE     C1B    9      0    
+ 10  C    1     DPPE     C2B    10      0    
+ 11  C    1     DPPE     C3B    11      0    
+ 12  C    1     DPPE     C4B    12      0    
+
+[bonds]
+;  i     j   funct   length  force.c.
+   1     2    1       0.47     1250
+   2     3    1       0.47     1250
+   3     4    1       0.47     1250
+   3     5    1       0.47     1250
+   5     6    1       0.47     1250
+   6     7    1       0.47     1250
+   7     8    1       0.47     1250
+   4     9    1       0.47     1250
+   9     10   1       0.47     1250
+   10    11   1       0.47     1250
+   11    12   1       0.47     1250
+
+[angles]
+;  i     j    k     funct   angle  force.c.
+    2     3    4       2    120.000   25.0 
+    2     3    5       2    180.000   25.0 
+   3     5    6       2   180.000  25.0 
+   5     6    7       2   180.000  25.0 
+   6     7    8       2   180.000  25.0 
+   4     9   10       2   180.000  25.0 
+   9    10   11       2   180.000  25.0 
+  10    11   12       2   180.000  25.0 
+
+;;;;;; DIOLEOYL PHOSPHATIDYLCHOLINE
+
+[ moleculetype ]
+; molname       nrexcl
+DOPC                1
+
+[ atoms ]
+;id type resnr residu atom cgnr   charge
+ 1   Q0   1     DOPC     NC3    1      1.0    
+ 2   Qa   1     DOPC     PO4    2     -1.0    
+ 3   Na   1     DOPC     GL1    3      0    
+ 4   Na   1     DOPC     GL2    4      0    
+ 5   C    1     DOPC     C1A    5      0    
+ 6   C    1     DOPC     C2A    6      0    
+ 7   C    1     DOPC     D3A    7      0    
+ 8   C    1     DOPC     C4A    8      0    
+ 9   C    1     DOPC     C5A    9      0    
+ 10  C    1     DOPC     C1B    10      0    
+ 11  C    1     DOPC     C2B    11      0    
+ 12  C    1     DOPC     D3B    12      0    
+ 13  C    1     DOPC     C4B    13      0    
+ 14  C    1     DOPC     C5B    14      0    
+
+[bonds]
+;  i     j   funct   length  force.c.
+   1     2    1       0.47     1250
+   2     3    1       0.47     1250
+   3     4    1       0.47     1250
+   3     5    1       0.47     1250
+   5     6    1       0.47     1250
+   6     7    1       0.47     1250
+   7     8    1       0.47     1250
+   8     9    1       0.47     1250
+   4     10   1       0.47     1250
+   10    11   1       0.47     1250
+   11    12   1       0.47     1250
+   12    13   1       0.47     1250
+   13    14   1       0.47     1250
+
+[angles]
+;  i     j    k     funct   angle  force.c.
+    2     3    4       2    120.000   25.0 
+    2     3    5       2    180.000   25.0 
+   3     5    6       2   180.000  25.0 
+   5     6    7       2   180.000  25.0 
+   6     7    8       2   120.000  35.0 
+   7     8    9       2   180.000  25.0 
+   4     10   11      2   180.000  25.0 
+  10    11   12       2   180.000  25.0 
+  11    12   13       2   120.000  35.0 
+  12    13   14       2   180.000  25.0 
+
+;;;;;; DIOLEOYL PHOSPHATIDYLETHANOLAMINE
+
+[ moleculetype ]
+; molname       nrexcl
+DOPE                1
+
+[ atoms ]
+;id type resnr residu atom cgnr   charge
+ 1   Qda  1     DOPE     NH3    1      1.0    
+ 2   Qa   1     DOPE     PO4    2     -1.0    
+ 3   Na   1     DOPE     GL1    3      0    
+ 4   Na   1     DOPE     GL2    4      0    
+ 5   C    1     DOPE     C1A    5      0    
+ 6   C    1     DOPE     C2A    6      0    
+ 7   C    1     DOPE     D3A    7      0    
+ 8   C    1     DOPE     C4A    8      0    
+ 9   C    1     DOPE     C5A    9      0    
+ 10  C    1     DOPE     C1B    10      0    
+ 11  C    1     DOPE     C2B    11      0    
+ 12  C    1     DOPE     D3B    12      0    
+ 13  C    1     DOPE     C4B    13      0    
+ 14  C    1     DOPE     C5B    14      0    
+
+[bonds]
+;  i     j   funct   length  force.c.
+   1     2    1       0.47     1250
+   2     3    1       0.47     1250
+   3     4    1       0.47     1250
+   3     5    1       0.47     1250
+   5     6    1       0.47     1250
+   6     7    1       0.47     1250
+   7     8    1       0.47     1250
+   8     9    1       0.47     1250
+   4     10   1       0.47     1250
+   10    11   1       0.47     1250
+   11    12   1       0.47     1250
+   12    13   1       0.47     1250
+   13    14   1       0.47     1250
+
+[angles]
+;  i     j    k     funct   angle  force.c.
+    2     3    4       2    120.000   25.0 
+    2     3    5       2    180.000   25.0 
+   3     5    6       2   180.000  25.0 
+   5     6    7       2   180.000  25.0 
+   6     7    8       2   120.000  35.0 
+   7     8    9       2   180.000  25.0 
+   4     10   11      2   180.000  25.0 
+  10    11   12       2   180.000  25.0 
+  11    12   13       2   120.000  35.0 
+  12    13   14       2   180.000  25.0 
+
+;;;;;; DILAUROYL PHOSPHATIDYLCHOLINE
+
+[ moleculetype ]
+; molname       nrexcl
+DLPC                1
+
+[ atoms ]
+;id type resnr residu atom cgnr   charge
+ 1   Q0   1     DLPC     NC3    1      1.0
+ 2   Qa   1     DLPC     PO4    2     -1.0
+ 3   Na   1     DLPC     GL1    3      0
+ 4   Na   1     DLPC     GL2    4      0
+ 5   C    1     DLPC     C1A    5      0
+ 6   C    1     DLPC     C2A    6      0
+ 7   C    1     DLPC     C3A    7      0
+ 8   C    1     DLPC     C1B    8      0
+ 9   C    1     DLPC     C2B    9       0
+ 10  C    1     DLPC     C3B    10      0
+
+[bonds]
+;  i     j   funct   length  force.c.
+   1     2    1       0.47     1250
+   2     3    1       0.47     1250
+   3     4    1       0.47     1250
+   3     5    1       0.47     1250
+   5     6    1       0.47     1250
+   6     7    1       0.47     1250
+   4     8    1       0.47     1250
+   8     9    1       0.47     1250
+   9     10   1       0.47     1250
+
+[angles]
+;  i     j    k     funct   angle  force.c.
+    2     3    4       2    120.000   25.0 
+    2     3    5       2    180.000   25.0 
+   3     5    6       2   180.000  25.0
+   5     6    7       2   180.000  25.0
+   4     8    9       2   180.000  25.0
+   8     9   10       2   180.000  25.0
+
+;;;;;; DILAUROYL PHOSPHATIDYLETHANOLAMINE
+
+[ moleculetype ]
+; molname       nrexcl
+DLPE                1
+
+[ atoms ]
+;id type resnr residu atom cgnr   charge
+ 1   Qda  1     DLPE     NH3    1      1.0
+ 2   Qa   1     DLPE     PO4    2     -1.0
+ 3   Na   1     DLPE     GL1    3      0
+ 4   Na   1     DLPE     GL2    4      0
+ 5   C    1     DLPE     C1A    5      0
+ 6   C    1     DLPE     C2A    6      0
+ 7   C    1     DLPE     C3A    7      0
+ 8   C    1     DLPE     C1B    8      0
+ 9   C    1     DLPE     C2B    9       0
+ 10  C    1     DLPE     C3B    10      0
+
+[bonds]
+;  i     j   funct   length  force.c.
+   1     2    1       0.47     1250
+   2     3    1       0.47     1250
+   3     4    1       0.47     1250
+   3     5    1       0.47     1250
+   5     6    1       0.47     1250
+   6     7    1       0.47     1250
+   4     8    1       0.47     1250
+   8     9    1       0.47     1250
+   9     10   1       0.47     1250
+
+[angles]
+;  i     j    k     funct   angle  force.c.
+    2     3    4       2    120.000   25.0 
+    2     3    5       2    180.000   25.0 
+   3     5    6       2   180.000  25.0
+   5     6    7       2   180.000  25.0
+   4     8    9       2   180.000  25.0
+   8     9   10       2   180.000  25.0
+
+
+;;;;;; DISTEAROYL PHOSPHATIDYLCHOLINE
+
+[ moleculetype ]
+; molname       nrexcl
+DSPC                1
+
+[ atoms ]
+;id type resnr residu atom cgnr   charge
+ 1   Q0   1     DSPC     NC3    1      1.0    
+ 2   Qa   1     DSPC     PO4    2     -1.0    
+ 3   Na   1     DSPC     GL1    3      0    
+ 4   Na   1     DSPC     GL2    4      0    
+ 5   C    1     DSPC     C1A    5      0    
+ 6   C    1     DSPC     C2A    6      0    
+ 7   C    1     DSPC     C3A    7      0    
+ 8   C    1     DSPC     C4A    8      0    
+ 9   C    1     DSPC     C5A    9      0    
+ 10  C    1     DSPC     C1B    10      0    
+ 11  C    1     DSPC     C2B    11      0    
+ 12  C    1     DSPC     C3B    12      0    
+ 13  C    1     DSPC     C4B    13      0    
+ 14  C    1     DSPC     C5B    14      0    
+
+[bonds]
+;  i     j   funct   length  force.c.
+   1     2    1       0.47     1250
+   2     3    1       0.47     1250
+   3     4    1       0.47     1250
+   3     5    1       0.47     1250
+   5     6    1       0.47     1250
+   6     7    1       0.47     1250
+   7     8    1       0.47     1250
+   8     9    1       0.47     1250
+   4     10   1       0.47     1250
+   10    11   1       0.47     1250
+   11    12   1       0.47     1250
+   12    13   1       0.47     1250
+   13    14   1       0.47     1250
+
+[angles]
+;  i     j    k     funct   angle  force.c.
+    2     3    4       2    120.000   25.0 
+    2     3    5       2    180.000   25.0 
+   3     5    6       2   180.000  25.0 
+   5     6    7       2   180.000  25.0 
+   6     7    8       2   180.000  25.0 
+   7     8    9       2   180.000  25.0 
+   4     10   11       2   180.000  25.0 
+  10    11   12       2   180.000  25.0 
+  11    12   13       2   180.000  25.0 
+  12    13   14       2   180.000  25.0 
+
