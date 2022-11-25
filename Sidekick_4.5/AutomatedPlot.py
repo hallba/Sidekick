@@ -66,7 +66,7 @@ def hist_tilt_data_plot(filename,image_output,graph_title='',modifier=0.,binwidt
 	fig = figure()
 	N,bins,patches = hist(tilt,range(0,90,binwidth))
 	fracs = N.astype(float)/N.max()
-	norm = colors.normalize(fracs.min(), fracs.max())
+	norm = colors.Normalize(fracs.min(), fracs.max())
 
 	for thisfrac, thispatch in zip(fracs, patches):
 		color = cm.jet(norm(thisfrac))
@@ -86,7 +86,7 @@ def hist_com_difference_plot(filename,image_output,graph_title=''):
 	fig = figure()
 	N,bins,patches = hist(distance,range(-30,30))
         fracs = N.astype(float)/N.max()
-        norm = colors.normalize(fracs.min(), fracs.max())
+        norm = colors.Normalize(fracs.min(), fracs.max())
 
 	for thisfrac, thispatch in zip(fracs, patches):
         	color = cm.jet(norm(thisfrac))
@@ -109,7 +109,7 @@ def hist_com_difference_plot_focus(filename,image_output,graph_title=''):
 	fig = figure()
 	N,bins,patches = hist(distance,range(-10,30))
         fracs = N.astype(float)/N.max()
-        norm = colors.normalize(fracs.min(), fracs.max())
+        norm = colors.Normalize(fracs.min(), fracs.max())
 
 	for thisfrac, thispatch in zip(fracs, patches):
         	color = cm.jet(norm(thisfrac))
@@ -194,7 +194,7 @@ def bilayer_deformation_bully(upper_filename,lower_filename,image_output,graph_t
 	top = subplot(2,1,1,polar=True,frameon=True)
 	
 	upperz = numpy.array([upper_ave]*101)
-	BullyT = top.pcolormesh(X,Y,upperz,cmap=cm.hot,norm=normalize(15,25))
+	BullyT = top.pcolormesh(X,Y,upperz,cmap=cm.hot,norm=Normalize(15,25))
 	# make sure aspect ratio preserved
 	top.set_aspect('equal')
 	
@@ -205,7 +205,7 @@ def bilayer_deformation_bully(upper_filename,lower_filename,image_output,graph_t
 	bottom = subplot(2,1,2,polar=True,frameon=True)
 	
 	lowerz = numpy.array([lower_ave]*101)
-	BullyB = bottom.pcolormesh(X,Y,lowerz,cmap=cm.hot,norm=normalize(15,25))
+	BullyB = bottom.pcolormesh(X,Y,lowerz,cmap=cm.hot,norm=Normalize(15,25))
 	# make sure aspect ratio preserved
 	bottom.set_aspect('equal')
 	
@@ -262,7 +262,7 @@ def bilayer_deformation_combo(upper_filename,lower_filename,image_output,graph_t
 	top = subplot(2,2,2,polar=True,frameon=False)
 	
 	upperz = numpy.array([upper_ave]*101)
-	BullyT = top.pcolormesh(X,Y,upperz,cmap=cm.hot,norm=normalize(15,25))
+	BullyT = top.pcolormesh(X,Y,upperz,cmap=cm.hot,norm=Normalize(15,25))
 	thetagrids([])
 	#print upperz[0]
 	# make sure aspect ratio preserved
@@ -275,7 +275,7 @@ def bilayer_deformation_combo(upper_filename,lower_filename,image_output,graph_t
 	bottom = subplot(2,2,4,polar=True,frameon=False)
 	
 	lowerz = numpy.array([lower_ave]*101)
-	BullyB = bottom.pcolormesh(X,Y,lowerz,cmap=cm.hot,norm=normalize(15,25))
+	BullyB = bottom.pcolormesh(X,Y,lowerz,cmap=cm.hot,norm=Normalize(15,25))
 	thetagrids([])
 	# make sure aspect ratio preserved
 	bottom.set_aspect('equal')
@@ -309,7 +309,7 @@ def rotation_plot(filename,image_output,graph_title='',max_value=-1,number_of_bi
 	if max_value == -1:
 		Radiant = top.pcolormesh(X,Y,Z,cmap=cm.jet)
 	else:
-		Radiant = top.pcolormesh(X,Y,Z,cmap=cm.jet,norm=normalize(0,max_value))
+		Radiant = top.pcolormesh(X,Y,Z,cmap=cm.jet,norm=Normalize(0,max_value))
 	lines, labels = thetagrids(range(0,360,divSize),fontsize=fontsize)
 	#if fontsize:
 	#	set(labels, fontsize=fontsize)
@@ -391,7 +391,7 @@ def bilayer_deformation_refined(upper_filename,lower_filename,image_output,graph
 	top = subplot(2,2,2,polar=True,frameon=False)
 	
 	upperz = numpy.array([upper_ave]*101)
-	BullyT = top.pcolormesh(X,Y,upperz,cmap=cm.hot,norm=normalize(15,25))
+	BullyT = top.pcolormesh(X,Y,upperz,cmap=cm.hot,norm=Normalize(15,25))
 	thetagrids([])
 	#print upperz[0]
 	# make sure aspect ratio preserved
@@ -404,7 +404,7 @@ def bilayer_deformation_refined(upper_filename,lower_filename,image_output,graph
 	bottom = subplot(2,2,4,polar=True,frameon=False)
 	
 	lowerz = numpy.array([lower_ave]*101)
-	BullyB = bottom.pcolormesh(X,Y,lowerz,cmap=cm.hot,norm=normalize(15,25))
+	BullyB = bottom.pcolormesh(X,Y,lowerz,cmap=cm.hot,norm=Normalize(15,25))
 	thetagrids([])
 	# make sure aspect ratio preserved
 	bottom.set_aspect('equal')
