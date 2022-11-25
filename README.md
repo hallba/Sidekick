@@ -11,7 +11,7 @@ Free for non-commercial use. Check Sidekick_4.5/licence.doc for licence informat
 
 Install a version of gromacs into Sidekick_4.5/gromacs. This is available from gromacs.org under its own licence.
 
-https://ftp.gromacs.org/pub/gromacs/
+`https://ftp.gromacs.org/pub/gromacs/`
 
 ## Usage
 
@@ -22,7 +22,7 @@ CG_Helix.py -s GWWLALALALALALALWWA -l 100 -r 5 -t MARTINI_1.1.2.b --special nter
 
 On ubuntu bash links to dash- this can be worked around by switching manually with
 
-`https://ftp.gromacs.org/pub/gromacs/`
+`dkpg-reconfigure dash`
 
 Set variable values in HAConf.py to point to your install and data locations
 
