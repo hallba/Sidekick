@@ -5,7 +5,7 @@ http://sbcb.bioch.ox.ac.uk/Sidekick/
 
 ## Licence
 
-Free for non-commercial use. Check Sidekick_4.5/licence.doc for licence information specifics.
+Under Apache license. Check License for details.
 
 ## Requirements
 
